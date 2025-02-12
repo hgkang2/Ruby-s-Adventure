@@ -13,7 +13,9 @@ public class EnemyController : MonoBehaviour
     private int direction = 1;
     private Vector2 position;
     private Animator animator;
-
+    private bool broken = true;
+    private int needfix = 3;
+    private int fixedCount;
 
     void Start()
     {
@@ -25,6 +27,10 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        if(!broken)
+        {
+            return;
+        }
         timer -= Time.deltaTime;
         if(timer < 0)
         {
@@ -53,6 +59,19 @@ public class EnemyController : MonoBehaviour
         //if(other.TryGetComponent<RubyController>(out var player))
         {
             player.ChangeHealth(-1);
+        }
+    }
+    public void Fix()
+    {
+        if(fixedCount >= needfix)
+        {
+        broken = false;
+        rb2D.simulated = false;
+        animator.SetTrigger("Fixed");
+        }
+        else
+        {
+            fixedCount++;
         }
     }
 }

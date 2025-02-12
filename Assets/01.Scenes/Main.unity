@@ -3583,7 +3583,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e6423c1729fa7554cac7bf88d4054345, type: 2}
+  - {fileID: 2100000, guid: ec49475a30ed55643b865d6b0700a78c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10155,6 +10155,10 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2009326224045325069, guid: db2022c4363a5e648aa6fa1ea6b57378, type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 4723277170691802301, guid: ffcf74f590044564bb17218a39552fcd, type: 3}
     - target: {fileID: 2009326224045325071, guid: db2022c4363a5e648aa6fa1ea6b57378, type: 3}
       propertyPath: m_RootOrder
       value: 2

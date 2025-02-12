@@ -18,6 +18,7 @@ public class RubyController : MonoBehaviour
     private Vector2 position;
     private Animator animator;
     private Vector2 lookDirection = new Vector2(1,0);
+    public GameObject projectilePrefab;
 
 
     void Start()
@@ -53,6 +54,10 @@ public class RubyController : MonoBehaviour
             if (invincibleTimer < 0)
                 isInvincible = false;
         }
+         if(Input.GetKeyDown(KeyCode.C))
+        {
+            Launch();
+        }
     }
    public void ChangeHealth(int amount)
     {
@@ -69,4 +74,13 @@ public class RubyController : MonoBehaviour
         //Debug.Log(currentHealth + "/" + maxHealth);
         Debug.Log($"{currentHealth}/{maxHealth}");
     }
+    void Launch()
+{
+    GameObject projectileObject = Instantiate(projectilePrefab, rb2D.position + Vector2.up * 0.5f, Quaternion.identity);
+
+    Projectile projectile = projectileObject.GetComponent<Projectile>();
+    projectile.Launch(lookDirection, 300);
+
+    animator.SetTrigger("Launch");
+}
 }
