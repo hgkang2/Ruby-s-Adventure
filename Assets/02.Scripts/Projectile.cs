@@ -1,29 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    public const float DISTANCE_DESTROY = 100.0f;
     Rigidbody2D rb2d;
-    void Awake()
+    private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
     }
-    public void Launch(Vector2 direction,float force)
+
+    private void Update()
     {
-        rb2d.AddForce(direction*force);
-    }
-     void Update()
-    {
-        if(transform.position.magnitude > 1000.0f)
+        if (transform.position.magnitude > DISTANCE_DESTROY)
         {
             Destroy(gameObject);
         }
     }
-    private void OCollisionEnter2D(Collision2D other)
+
+    public void Launch(Vector2 direction, float force)
     {
-       EnemyController e = other.collider.GetComponent<EnemyController>();
-        if (e != null)
+        rb2d.AddForce(direction * force);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        //Debug.Log("Projectile Collision with" + other.gameObject);
+        //EnemyController e = 
+        //    other.collider.GetComponent<EnemyController>();
+        //if (e != null)
+        if (other.collider.TryGetComponent<EnemyController>(out var e))
         {
             e.Fix();
         }

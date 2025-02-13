@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -8,70 +8,77 @@ public class EnemyController : MonoBehaviour
     public float moveSpeed = 4.0f;
     public bool vertical;
     public float changeTime = 3.0f;
-    private Rigidbody2D rb2D;
+    public int needFix = 3;
+
+    private Rigidbody2D rb2d;
     private float timer;
     private int direction = 1;
     private Vector2 position;
     private Animator animator;
-    private bool broken = true;
-    private int needfix = 3;
+    private bool broken;
     private int fixedCount;
-
+    public ParticleSystem smokeEffect;
     void Start()
     {
-        rb2D = GetComponent<Rigidbody2D>();
+        rb2d = GetComponent<Rigidbody2D>();
         timer = changeTime;
-        position = rb2D.position;
+        position = rb2d.position;
         animator = GetComponent<Animator>();
+        broken = true;
+        fixedCount = 0;
     }
 
     void Update()
     {
-        if(!broken)
+        if (!broken)
         {
             return;
         }
+
         timer -= Time.deltaTime;
-        if(timer < 0)
+        if (timer < 0)
         {
             direction = -direction;
             timer = changeTime;
         }
-        if(vertical)
+
+        if (vertical)
         {
-            animator.SetFloat("MoveX",0);
+            animator.SetFloat("MoveX", 0);
             animator.SetFloat("MoveY", direction);
             position.y += moveSpeed * direction * Time.deltaTime;
         }
         else
         {
-            animator.SetFloat("MoveX",direction);
-            animator.SetFloat("MoveY",0);
-        position.x += moveSpeed * direction *Time.deltaTime;
-        }   
-        rb2D.MovePosition(position);
+            animator.SetFloat("MoveX", direction);
+            animator.SetFloat("MoveY", 0);
+            position.x += moveSpeed * direction * Time.deltaTime; 
+        }
+        rb2d.MovePosition(position);
     }
+
     void OnCollisionEnter2D(Collision2D other)
     {
-        RubyController player =
-        other.gameObject.GetComponent<RubyController>();
+        RubyController player = 
+            other.gameObject.GetComponent<RubyController>();
         if (player != null)
-        //if(other.TryGetComponent<RubyController>(out var player))
         {
             player.ChangeHealth(-1);
         }
     }
+
     public void Fix()
     {
-        if(fixedCount >= needfix)
+        if (fixedCount >= needFix)
         {
-        broken = false;
-        rb2D.simulated = false;
-        animator.SetTrigger("Fixed");
+            broken = false;
+            rb2d.simulated = false;
+            animator.SetTrigger("Fixed");
         }
         else
         {
             fixedCount++;
         }
+        smokeEffect.Stop();
     }
 }

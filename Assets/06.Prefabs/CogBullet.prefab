@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4723277170691802240}
   - component: {fileID: 4723277170691802243}
   - component: {fileID: 4723277170691802242}
-  - component: {fileID: -1404615107410590465}
-  m_Layer: 0
+  - component: {fileID: 8058325043272862553}
+  m_Layer: 9
   m_Name: CogBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-1404615107410590465
+--- !u!114 &8058325043272862553
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

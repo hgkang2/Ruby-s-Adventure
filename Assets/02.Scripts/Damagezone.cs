@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Damagezone : MonoBehaviour
 {
-   void OnTriggerEnter2D(Collider2D other)
-   {
-    //RubyController controller = other.GetComponent<RubyController>();
-    //if (controller != null)
-    if (other.TryGetComponent<RubyController>(out var controller))
+    void OnTriggerStay2D(Collider2D other)
     {
-        controller.ChangeHealth(-1);
+        //RubyController controller = other.GetComponent<RubyController>();
+        //if (controller != null)
+        if (other.TryGetComponent<RubyController>(out var controller))
+        {
+            controller.ChangeHealth(-1);
+        }
     }
-   }
 }

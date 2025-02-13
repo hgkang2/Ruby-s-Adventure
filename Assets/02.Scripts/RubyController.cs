@@ -1,86 +1,97 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.Video;
 
 public class RubyController : MonoBehaviour
 {
-    public float moveSpeed = 5.0f;
+    public const float FIXED_PT = 0.5f;
+    public const int FORCE_PT = 300;
+    public float moveSpeed = 4.0f;
     public int maxHealth = 5;
-    public int health {get { return currentHealth;}}
-    int currentHealth;
+    public int health { get { return currentHealth; } }
     public float timeInvincible = 2.0f;
-    bool isInvincible;
-    float invincibleTimer;
-    private Rigidbody2D rb2D;
+    public GameObject projectilePrefab;
+    public ParticleSystem collEffectPrefab;
+
+    private bool isInvincible;
+    private float invicibleTimer;
+    private int currentHealth;
+    private Rigidbody2D rb2d;
     private Vector2 position;
     private Animator animator;
-    private Vector2 lookDirection = new Vector2(1,0);
-    public GameObject projectilePrefab;
-
-
-    void Start()
+    private Vector2 lookDirection = new Vector2(1, 0);
+    private void Start()
     {
-        rb2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        rb2d = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
-        position= rb2D.position;
+        position = rb2d.position;
+        animator = GetComponent<Animator>();
+        
     }
 
     private void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
-       float vertical = Input.GetAxis("Vertical");
-       Vector2 move = new Vector2(horizontal, vertical);
-       if(!Mathf.Approximately(move.x,0.0f)||
-       !Mathf.Approximately(move.y, 0.0f))
-       {
-        lookDirection.Set(move.x,move.y);
-        lookDirection.Normalize();
-       }
-       animator.SetFloat("Look X", lookDirection.x);
+        float vertical = Input.GetAxis("Vertical");
+
+
+        Vector2 move = new Vector2(horizontal, vertical);
+        if (!Mathf.Approximately(move.x, 0.0f) ||
+            !Mathf.Approximately(move.y, 0.0f))
+        {
+            lookDirection.Set(move.x, move.y);
+            lookDirection.Normalize();
+        }
+        animator.SetFloat("Look X", lookDirection.x);
         animator.SetFloat("Look Y", lookDirection.y);
         animator.SetFloat("Speed", move.magnitude);
 
-       //position.x = position.x + moveSpeed * horizontal * Time.deltaTime;
-       //position.y = position.y + moveSpeed * vertical * Time.deltaTime;
-       position += move*moveSpeed*Time.deltaTime;
-       rb2D.MovePosition(position);
+        //position.x += moveSpeed * horizontal * Time.deltaTime;
+        //position.y += moveSpeed * vertical * Time.deltaTime;
+        position += move * moveSpeed * Time.deltaTime;
+        rb2d.MovePosition(position);
+
         if (isInvincible)
         {
-            invincibleTimer -= Time.deltaTime;
-            if (invincibleTimer < 0)
+            invicibleTimer -= Time.deltaTime;
+            if (invicibleTimer < 0)
                 isInvincible = false;
         }
-         if(Input.GetKeyDown(KeyCode.C))
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Launch();
         }
     }
-   public void ChangeHealth(int amount)
+
+    public void ChangeHealth(int amount)
     {
         if (amount < 0)
         {
+               animator.SetTrigger("Hit");
             if (isInvincible)
                 return;
-            
+
             isInvincible = true;
-            invincibleTimer = timeInvincible;
+            invicibleTimer = timeInvincible;
         }
-        animator.SetTrigger("Hit");
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-        //Debug.Log(currentHealth + "/" + maxHealth);
         Debug.Log($"{currentHealth}/{maxHealth}");
     }
-    void Launch()
-{
-    GameObject projectileObject = Instantiate(projectilePrefab, rb2D.position + Vector2.up * 0.5f, Quaternion.identity);
 
-    Projectile projectile = projectileObject.GetComponent<Projectile>();
-    projectile.Launch(lookDirection, 300);
+    private void Launch()
+    {
+        GameObject projectileObject = Instantiate(
+            projectilePrefab,
+            rb2d.position + Vector2.up * FIXED_PT,
+            Quaternion.identity);
+        Projectile projectile =
+            projectileObject.GetComponent<Projectile>();
+        projectile.Launch(lookDirection, FORCE_PT);
 
-    animator.SetTrigger("Launch");
-}
+        animator.SetTrigger("Launch");
+    }
 }
