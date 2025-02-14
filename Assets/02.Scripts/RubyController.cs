@@ -77,6 +77,7 @@ public class RubyController : MonoBehaviour
 
             isInvincible = true;
             invicibleTimer = timeInvincible;
+            Instantiate(collEffectPrefab, rb2d.position + Vector2.up * 0.2f,Quaternion.identity);
         }
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         Debug.Log($"{currentHealth}/{maxHealth}");
