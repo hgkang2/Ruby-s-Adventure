@@ -9,9 +9,9 @@ public class RubyController : MonoBehaviour
 {
     public const float FIXED_PT = 0.5f;
     public const int FORCE_PT = 300;
-    public float moveSpeed = 4.0f;
+    public float moveSpeed = 4.0f; 
     public int maxHealth = 5;
-    public int health { get { return currentHealth; } }
+    public int health { get { return currentHealth; }}
     public float timeInvincible = 2.0f;
     public GameObject projectilePrefab;
     public ParticleSystem collEffectPrefab;
@@ -22,29 +22,31 @@ public class RubyController : MonoBehaviour
     private Rigidbody2D rb2d;
     private Vector2 position;
     private Animator animator;
-    private Vector2 lookDirection = new Vector2(1, 0);
+    private Vector2 lookDirection = new Vector2(1,0);
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
         position = rb2d.position;
         animator = GetComponent<Animator>();
-        
     }
 
     private void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
-
+        // GetAxisLaw를 사용하면 -1,1값이 넘어온다
+        //float vertical = Input.GetAxisRaw("Vertical");
+        //Debug.Log($"H:{horizontal}");
+        //Debug.Log($"V:{vertical}");
+        
         Vector2 move = new Vector2(horizontal, vertical);
         if (!Mathf.Approximately(move.x, 0.0f) ||
             !Mathf.Approximately(move.y, 0.0f))
-        {
-            lookDirection.Set(move.x, move.y);
-            lookDirection.Normalize();
-        }
+            {
+                lookDirection.Set(move.x, move.y);
+                lookDirection.Normalize();
+            }
         animator.SetFloat("Look X", lookDirection.x);
         animator.SetFloat("Look Y", lookDirection.y);
         animator.SetFloat("Speed", move.magnitude);
@@ -65,31 +67,46 @@ public class RubyController : MonoBehaviour
         {
             Launch();
         }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(rb2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
+            if (hit.collider != null)
+            {
+                NPC jambi = hit.collider.GetComponent<NPC>();
+                if (jambi != null)
+                {
+                    jambi.DisplayDialog();
+                }
+            }
+        }
     }
 
     public void ChangeHealth(int amount)
     {
         if (amount < 0)
         {
-               animator.SetTrigger("Hit");
+            animator.SetTrigger("Hit");
             if (isInvincible)
                 return;
 
             isInvincible = true;
             invicibleTimer = timeInvincible;
-            Instantiate(collEffectPrefab, rb2d.position + Vector2.up * 0.2f,Quaternion.identity);
+            //Instantiate(collEffectPrefab, transform);
+            Instantiate(collEffectPrefab, 
+                rb2d.position + Vector2.up * 0.2f, Quaternion.identity);
         }
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-        Debug.Log($"{currentHealth}/{maxHealth}");
+        //Debug.Log($"{currentHealth}/{maxHealth}");
+        UIHealthBar.instance.SetValue(currentHealth/(float)maxHealth);
     }
 
     private void Launch()
     {
         GameObject projectileObject = Instantiate(
-            projectilePrefab,
+            projectilePrefab, 
             rb2d.position + Vector2.up * FIXED_PT,
             Quaternion.identity);
-        Projectile projectile =
+        Projectile projectile = 
             projectileObject.GetComponent<Projectile>();
         projectile.Launch(lookDirection, FORCE_PT);
 
