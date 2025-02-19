@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1128815827482682284}
   m_Layer: 0
   m_Name: Bot
-  m_TagString: Untagged
+  m_TagString: BOT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,6 +154,7 @@ MonoBehaviour:
   changeTime: 3
   needFix: 3
   smokeEffect: {fileID: 6477873248140980681}
+  fixedClip: {fileID: 8300000, guid: e7fa1971a86d60945bb64585c0ac14d5, type: 3}
 --- !u!95 &-4809681986904239597
 Animator:
   serializedVersion: 5

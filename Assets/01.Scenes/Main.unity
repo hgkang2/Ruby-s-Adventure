@@ -1624,6 +1624,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayTime: 4
   dialogBox: {fileID: 1776012092}
+  QuestText: {fileID: 1212168729}
+  ShadowText: {fileID: 432738278}
 --- !u!1 &700727995
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,6 +2814,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 607231607}
     m_Modifications:
+    - target: {fileID: -6126193458463477654, guid: b612bf7f50f8d8644ab8b01f507a9c1a, type: 3}
+      propertyPath: getEffect
+      value: 
+      objectReference: {fileID: 1686773277}
     - target: {fileID: 3900978341132401862, guid: b612bf7f50f8d8644ab8b01f507a9c1a, type: 3}
       propertyPath: m_Name
       value: CollectibleHealth (1)
@@ -3066,6 +3072,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 607231607}
     m_Modifications:
+    - target: {fileID: -6126193458463477654, guid: b612bf7f50f8d8644ab8b01f507a9c1a, type: 3}
+      propertyPath: getEffect
+      value: 
+      objectReference: {fileID: 1686773277}
     - target: {fileID: 3900978341132401862, guid: b612bf7f50f8d8644ab8b01f507a9c1a, type: 3}
       propertyPath: m_Name
       value: CollectibleHealth (2)
@@ -3556,7 +3566,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1374844744
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4482,7 +4492,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 291575303257025165, guid: 6056d37660d28924ba9690f0c08878ca, type: 3}
   m_PrefabInstance: {fileID: 8817285084423263139}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1636309786
+--- !u!114 &1636309789
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4555,6 +4565,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5255091320416469258, guid: 3ab8a42ba00d647488456906d60a1152, type: 3}
   m_PrefabInstance: {fileID: 1653156610}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1686773277 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6477873248140980681, guid: be113ec22a4be2a4d847641ff56552f8, type: 3}
+  m_PrefabInstance: {fileID: 1589511177045522116}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1693791375
 GameObject:
@@ -15428,6 +15443,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 607231607}
     m_Modifications:
+    - target: {fileID: -6126193458463477654, guid: b612bf7f50f8d8644ab8b01f507a9c1a, type: 3}
+      propertyPath: getEffect
+      value: 
+      objectReference: {fileID: 1686773277}
     - target: {fileID: 3900978341132401862, guid: b612bf7f50f8d8644ab8b01f507a9c1a, type: 3}
       propertyPath: m_Name
       value: CollectibleHealth
@@ -15721,6 +15740,10 @@ PrefabInstance:
     - target: {fileID: 7852430119649680835, guid: ac73cf0ed05783944a50bd4f06d497c5, type: 3}
       propertyPath: m_Name
       value: Jambi
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852430119649680835, guid: ac73cf0ed05783944a50bd4f06d497c5, type: 3}
+      propertyPath: m_TagString
+      value: JAMBI
       objectReference: {fileID: 0}
     - target: {fileID: 7852430119649680838, guid: ac73cf0ed05783944a50bd4f06d497c5, type: 3}
       propertyPath: m_RootOrder

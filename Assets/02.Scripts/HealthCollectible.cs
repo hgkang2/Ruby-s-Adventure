@@ -14,8 +14,10 @@ public class HealthCollectible : MonoBehaviour
         {
             if (controller.health < controller.maxHealth)
             {
+                Instantiate(getEffect, transform);
                 controller.ChangeHealth(1);
-                Destroy(gameObject);
+                GetComponent<SpriteRenderer>().enabled = false;
+                Destroy(gameObject, 3.0f);
 
                 controller.PlaySound(collectedClip);
             }

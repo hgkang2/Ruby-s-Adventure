@@ -16,7 +16,7 @@ public class RubyController : MonoBehaviour
     public GameObject projectilePrefab;
     public ParticleSystem collEffectPrefab;
     public AudioClip throwClip;
-    public AudioClip HitClip;
+    public AudioClip hitClip;
 
     private bool isInvincible;
     private float invicibleTimer;
@@ -26,6 +26,7 @@ public class RubyController : MonoBehaviour
     private Animator animator;
     private Vector2 lookDirection = new Vector2(1,0);
     private AudioSource audioSource;
+
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -34,7 +35,6 @@ public class RubyController : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
     }
-   
 
     private void Update()
     {
@@ -58,7 +58,7 @@ public class RubyController : MonoBehaviour
 
         //position.x += moveSpeed * horizontal * Time.deltaTime;
         //position.y += moveSpeed * vertical * Time.deltaTime;
-        position += move * moveSpeed * Time.deltaTime;  
+        position += move * moveSpeed * Time.deltaTime;
         rb2d.MovePosition(position);
 
         if (isInvincible)
@@ -72,13 +72,20 @@ public class RubyController : MonoBehaviour
         {
             Launch();
         }
-        if (Input.GetKeyDown(KeyCode.G))
+
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            RaycastHit2D hit = Physics2D.Raycast(rb2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
+            RaycastHit2D hit = Physics2D.Raycast(
+                rb2d.position + Vector2.up * 0.2f,
+                lookDirection,
+                1.5f,
+                LayerMask.GetMask("NPC"));
             if (hit.collider != null)
             {
-                NPC jambi = hit.collider.GetComponent<NPC>();
-                if (jambi != null)
+                //Debug.Log("Raycast has hit " + hit.collider.gameObject);
+                //NPC jambi = hit.collider.GetComponent<NPC>();
+                //if (jambi != null)
+                if (hit.collider.TryGetComponent<NPC>(out var jambi))
                 {
                     jambi.DisplayDialog();
                 }
@@ -99,11 +106,11 @@ public class RubyController : MonoBehaviour
             //Instantiate(collEffectPrefab, transform);
             Instantiate(collEffectPrefab, 
                 rb2d.position + Vector2.up * 0.2f, Quaternion.identity);
+            PlaySound(hitClip);
         }
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         //Debug.Log($"{currentHealth}/{maxHealth}");
         UIHealthBar.instance.SetValue(currentHealth/(float)maxHealth);
-        PlaySound(HitClip);
     }
 
     private void Launch()
@@ -119,7 +126,8 @@ public class RubyController : MonoBehaviour
         animator.SetTrigger("Launch");
         PlaySound(throwClip);
     }
-     public void PlaySound(AudioClip clip)
+
+    public void PlaySound(AudioClip clip)
     {
         audioSource.PlayOneShot(clip);
     }
