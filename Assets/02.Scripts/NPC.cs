@@ -1,27 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
-using UnityEditor.ProjectWindowCallback;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class NPC : MonoBehaviour
 {
     public float displayTime = 4.0f;
     public GameObject dialogBox;
-    [SerializeField] private TextMeshProUGUI QuestText;
-    [SerializeField] private TextMeshProUGUI ShadowText;
-
+    [SerializeField] private TextMeshProUGUI questText;
+    [SerializeField] private TextMeshProUGUI shadowText;
     private float timerDisplay;
     private int countRobotLeft;
     void Start()
     {
-        dialogBox.SetActive(false);   
         timerDisplay = -1.0f;
         countRobotLeft = GameObject.FindGameObjectsWithTag("BOT").Length;
-        SetDisplayText(false);
-        dialogBox.SetActive(false);
+        SetDisplayText();
+        dialogBox.SetActive(false);   
     }
 
     void Update()
@@ -41,30 +36,34 @@ public class NPC : MonoBehaviour
         timerDisplay = displayTime;
         dialogBox.SetActive(true);
     }
-    public void NoticeRobotFixed()
+
+    public bool NoticeRobotFixed()
     {
         countRobotLeft--;
-        if(countRobotLeft <= 0 )
-        {
-            SetDisplayText(true);
-        }
-        else
-        {
-            SetDisplayText(false);
-        }
+        bool isCompleted = (countRobotLeft <= 0);
+        // if (countRobotLeft <= 0)
+        // {
+        //     isCompleted = true;
+        // }
+        // else
+        // {
+        //     isCompleted = false;
+        // }
+        SetDisplayText(isCompleted);
+        return isCompleted; 
     }
-    private void SetDisplayText(bool isCompleted = false)
+
+    public void SetDisplayText(bool isCompleted = false)
     {
         if (isCompleted)
         {
-            QuestText.text = ShadowText.text =
-            $"Help! \n Fix the Robots! \nLeft:{countRobotLeft}";
+            questText.text = shadowText.text =
+                $"Good job!\nYou made it!";
         }
         else
         {
-            QuestText.text = ShadowText.text =
-            $"Good job! \n Thank you for your help!";
+            questText.text = shadowText.text =
+                $"Help!\nFix the Robots!\nLeft : {countRobotLeft}";
         }
-
     }
 }
