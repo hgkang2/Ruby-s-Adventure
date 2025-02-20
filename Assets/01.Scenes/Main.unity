@@ -15176,6 +15176,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ruby
       objectReference: {fileID: 0}
+    - target: {fileID: 2009326224045325069, guid: db2022c4363a5e648aa6fa1ea6b57378, type: 3}
+      propertyPath: AndroidPanel
+      value: 
+      objectReference: {fileID: 509990587}
     - target: {fileID: 2009326224045325071, guid: db2022c4363a5e648aa6fa1ea6b57378, type: 3}
       propertyPath: m_RootOrder
       value: 2

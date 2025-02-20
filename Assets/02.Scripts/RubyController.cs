@@ -31,11 +31,11 @@ public class RubyController : MonoBehaviour
 
     private void Start()
     {
-        #if(UNITY_ANDROID)
+#if (UNITY_ANDROID)
         AndroidPanel.SetActive(true);
-        #else
+#else
         AndroidPanel.SetActive(false);
-        #endif
+#endif
         rb2d = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
         position = rb2d.position;
@@ -57,7 +57,6 @@ public class RubyController : MonoBehaviour
 #else
         Vector2 move = moves.MoveInput.normalized;
 #endif
-
         if (!Mathf.Approximately(move.x, 0.0f) ||
             !Mathf.Approximately(move.y, 0.0f))
             {
@@ -85,13 +84,11 @@ public class RubyController : MonoBehaviour
             Launch();
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            //Talk();
+            Talk();
         }
     }
-    
-    
 
     public void ChangeHealth(int amount)
     {
@@ -127,16 +124,27 @@ public class RubyController : MonoBehaviour
         PlaySound(throwClip);
     }
 
+    public void Talk()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(
+                rb2d.position + Vector2.up * 0.2f,
+                lookDirection,
+                1.5f,
+                LayerMask.GetMask("NPC"));
+        if (hit.collider != null)
+        {
+            //Debug.Log("Raycast has hit " + hit.collider.gameObject);
+            //NPC jambi = hit.collider.GetComponent<NPC>();
+            //if (jambi != null)
+            if (hit.collider.TryGetComponent<NPC>(out var jambi))
+            {
+                jambi.DisplayDialog();
+            }
+        }
+    }
+
     public void PlaySound(AudioClip clip)
     {
         audioSource.PlayOneShot(clip);
-    }
-}
-
-public class AndroidPanel
-{
-    internal static void SetActive(bool v)
-    {
-        throw new NotImplementedException();
     }
 }
