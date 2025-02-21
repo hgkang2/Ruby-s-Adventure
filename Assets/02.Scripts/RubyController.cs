@@ -84,7 +84,7 @@ public class RubyController : MonoBehaviour
             Launch();
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             Talk();
         }
@@ -101,13 +101,13 @@ public class RubyController : MonoBehaviour
             isInvincible = true;
             invicibleTimer = timeInvincible;
             //Instantiate(collEffectPrefab, transform);
-            Instantiate(collEffectPrefab, 
+            Instantiate(collEffectPrefab,
                 rb2d.position + Vector2.up * 0.2f, Quaternion.identity);
             PlaySound(hitClip);
         }
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         //Debug.Log($"{currentHealth}/{maxHealth}");
-        UIHealthBar.instance.SetValue(currentHealth/(float)maxHealth);
+        UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
     }
 
     public void Launch()
